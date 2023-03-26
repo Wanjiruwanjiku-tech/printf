@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdarg.h>
-
+/**
+ * _printf - prinf function with %c %s
+ * @format: string
+ * Return: count
+ */
 int _printf(const char *format, ...)
 {
 	int count = 0, i;
@@ -18,16 +22,14 @@ int _printf(const char *format, ...)
 			if (format[i] == 'c')
 			{
 				c = va_arg(av, int);
-				putchar(c);
-				count++;
+				count += write(1, &c, 1);
 			}
 			else if (format[i] == 's')
 			{
 				s = va_arg(av, char*);
 				while (*s != '\0')
 				{
-					putchar(*s);
-					count++;
+					count += write(1, &s, strlen(s));
 				}
 			}
 
@@ -35,7 +37,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			putchar(format[i]);
+			write(1, format[i], 1)
 		}
 
 	}
