@@ -10,7 +10,7 @@
 int _printf(const char *format, ...)
 {
         int count = 0, i;
-        char c;
+        char c, percent = '%';
         char *s;
         va_list av;
 
@@ -29,17 +29,28 @@ int _printf(const char *format, ...)
                         else if (format[i] == 's')
                         {
                                 s = va_arg(av, char*);
-                                while (*s != '\0')
-                                {
-                                        count += write(1, s, strlen(s));
-                                }
+                                count += write(1, s, strlen(s));
+					
                         }
-
+			else if (format[i] == '%')
+			{
+				percent = va_arg(av, int);
+				count += write(1, &percent, 1);
+			}
+			else
+			{
+				count += 0;
+			}
 
                 }
+		else
+		{
+			write(1, &format[i], 1);
+		}
 
         }
         va_end(av);
         return (count);
 }
+
 
