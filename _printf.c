@@ -9,40 +9,42 @@
  */
 int _printf(const char *format, ...)
 {
-	int count = 0, i;
-	char c;
-	char *s;
-	va_list av;
+        int count = 0, i;
+        char c;
+        char *s;
+        va_list av;
 
-	va_start(av, format);
+        va_start(av, format);
 
-	for (i = 0; format[i] != '\0'; i++)
-	{
-		if (format[i] == '%')
-		{
-			i++;
-			if (format[i] == 'c')
-			{
-				c = va_arg(av, int);
-				count += write(1, &c, 1);
-			}
-			else if (format[i] == 's')
-			{
-				s = va_arg(av, char*);
-				while (*s != '\0')
-				{
-					count += write(1, s, strlen(s));
-				}
-			}
+        for (i = 0; format[i] != '\0'; i++)
+        {
+                if (format[i] == '%' && format[i] != '%')
+                {
+                        i++;
+                        if (format[i] == 'c')
+                        {
+                                c = va_arg(av, int);
+                                count += write(1, &c, 1);
+                        }
+                        else if (format[i] == 's')
+                        {
+                                s = va_arg(av, char*);
+                                while (*s != '\0')
+                                {
+                                        count += write(1, s, strlen(s));
+                                }
+                        }
 
 
-		}
-		else
-		{
-			write(1, &(format[i]), 1)
-		}
+                }
+                else if (format[i] != '%')
+                {
+                        write(1, &(format[i]), 1);
+			return (-1);
+                }
 
-	}
-	va_end(av);
-	return (count);
+        }
+        va_end(av);
+        return (count);
 }
+
