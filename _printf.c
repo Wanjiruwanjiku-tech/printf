@@ -29,7 +29,7 @@ int _printf(const char *format, ...)
 				s = va_arg(av, char*);
 				while (*s != '\0')
 				{
-					count += write(1, &s, strlen(s));
+					count += write(1, s, strlen(s));
 				}
 			}
 
@@ -37,7 +37,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			write(1, format[i], 1)
+			write(1, &(format[i]), 1)
 		}
 
 	}
