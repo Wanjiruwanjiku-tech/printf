@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
+#include <string.h>
 /**
  * _printf - prinf function with %c %s
  * @format: string
