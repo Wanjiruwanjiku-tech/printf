@@ -1,4 +1,4 @@
-#include <stdio.h>
+g#include <stdio.h>
 #include <stdarg.h>
 
 int _printf(const char *format, ...)
@@ -7,8 +7,9 @@ int _printf(const char *format, ...)
 	char c;
 	char *s;
 	va_list av;
+
 	va_start(av, format);
-	
+
 	for (i = 0; format[i] != '\0'; i++)
 	{
 		if (format[i] == '%')
@@ -23,15 +24,15 @@ int _printf(const char *format, ...)
 			else if (format[i] == 's')
 			{
 				s = va_arg(av, char*);
-				while(*s != '\0')
+				while (*s != '\0')
 				{
 					putchar(*s);
-					count++;		
+					count++;
 				}
 			}
-			
 
-		}	
+
+		}
 		else
 		{
 			putchar(format[i]);
@@ -41,4 +42,3 @@ int _printf(const char *format, ...)
 	va_end(av);
 	return (count);
 }
-
