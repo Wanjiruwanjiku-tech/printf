@@ -1,57 +1,68 @@
-#include "main.h"
-#include <stdio.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <string.h>
+#include <stdarg.h>  // for variable arguments list
+#include <stdio.h>   // for printf, sprintf, snprintf
+#include <stdlib.h>  // for malloc, free
+#include <string.h>  // for strlen, strncpy
+#include <unistd.h>  // for write
+
 /**
- * _printf - prinf function with %c %s
- * @format: string
- * Return: count
+ * _printf - Custom implementation of printf function
+ * @format: String that specifies the format of the output
+ * Return: Number of characters printed
  */
 int _printf(const char *format, ...)
 {
-        int count = 0, i;
-        char c, percent = '%';
-        char *s;
-        va_list av;
+    int count = 0;         // Total number of characters printed
+    va_list args;          // Variable argument list
+    const char *p = format; // Pointer to traverse the format string
 
-        va_start(av, format);
+    va_start(args, format);
 
-        for (i = 0; format[i] != '\0'; i++)
+    while (*p != '\0') // Traverse the format string until end-of-string
+    {
+        if (*p == '%') // Found a format specifier
         {
-                if (format[i] == '%' && format[i] != '%')
-                {
-                        i++;
-                        if (format[i] == 'c')
-                        {
-                                c = va_arg(av, int);
-                                count += write(1, &c, 1);
-                        }
-                        else if (format[i] == 's')
-                        {
-                                s = va_arg(av, char*);
-                                count += write(1, s, strlen(s));
-					
-                        }
-			else if (format[i] == '%')
-			{
-				percent = va_arg(av, int);
-				count += write(1, &percent, 1);
-			}
-			else
-			{
-				count += 0;
-			}
+            p++; // Move past the '%'
 
-                }
-		else
-		{
-			write(1, &format[i], 1);
-		}
+            // Check the format specifier and perform the corresponding action
+            switch (*p)
+            {
+                case 'c': // Character
+                    {
+                        char c = va_arg(args, int);
+                        count += write(1, &c, 1);
+                        break;
+                    }
 
+                case 's': // String
+                    {
+                        char *s = va_arg(args, char *);
+                        count += write(1, s, strlen(s));
+                        break;
+                    }
+
+                case '%': // Percent sign
+                    {
+                        count += write(1, "%", 1);
+                        break;
+                    }
+
+                default: // Unknown format specifier
+                    {
+                        count += write(1, "%", 1);
+                        count += write(1, &(*p), 1);
+                        break;
+                    }
+            }
         }
-        va_end(av);
-        return (count);
+        else // Regular character
+        {
+            count += write(1, &(*p), 1);
+        }
+
+        p++; // Move to the next character in the format string
+    }
+
+    va_end(args); // End variable argument list
+
+    return count; // Return total number of characters printed
 }
-
-
