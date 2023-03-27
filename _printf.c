@@ -12,57 +12,54 @@
  */
 int _printf(const char *format, ...)
 {
-    int count = 0;         /* Total number of characters printed*/
-    va_list args;          /* Variable argument list*/
-    const char *p = format; /* Pointer to traverse the format st*/
-    va_start(args, format);
+	int count = 0; /* Total number of characters printed*/
+	va_list args; /* Variable argument list*/
+	const char *p = format; /* Pointer to traverse the format st*/
 
-    while (*p != '\0') /* Traverse the format string until end-of-string*/
-    {
-        if (*p == '%') /* Found a format specifier*/
-        {
-            p++; /* Move past the '%'*/
+	va_start(args, format);
 
-            /* Check the format specifier and perform the corresponding action*/
-            switch (*p)
-            {
-                case 'c': /* Character*/
-                    {
-                        char c = va_arg(args, int);
-                        count += write(1, &c, 1);
-                        break;
-                    }
+	while (*p != '\0')
+	{
+		if (*p == '%') /* Found a format specifier*/
+		{
+			p++; /* Move past the '%'*/
+			/* Check the format specifier*/
+			/*and perform the corresponding action*/
+			switch (*p)
+			{
+				case 'c': /* Character*/
+				{
+					char c = va_arg(args, int);
+					count += write(1, &c, 1);
+					
+					break;
+				}
+				case 's': /* String*/
+				{
+					char *s = va_arg(args, char *);
+					count += write(1, s, strlen(s));
+					break;
+				}
+				case '%': /* Percent sign*/
+				{
+					count += write(1, "%", 1);
+					break;
+				}
+				default: /* Unknown format specifier*/
+				{
+					count += write(1, "%", 1);
+					count += write(1, &(*p), 1);
+					break;
+				}
+			}
+		}
+		else /* Regular character*/
+		{
+			count += write(1, &(*p), 1);
+		}
+		p++; /*Move to the next character in the format string*/
+	}
+	va_end(args); /* End variable argument list*/
 
-                case 's': /* String*/
-                    {
-                        char *s = va_arg(args, char *);
-                        count += write(1, s, strlen(s));
-                        break;
-                    }
-
-                case '%': /* Percent sign*/
-                    {
-                        count += write(1, "%", 1);
-                        break;
-                    }
-
-                default: /* Unknown format specifier*/
-                    {
-                        count += write(1, "%", 1);
-                        count += write(1, &(*p), 1);
-                        break;
-                    }
-            }
-        }
-        else /* Regular character*/
-        {
-            count += write(1, &(*p), 1);
-        }
-
-        p++; /*Move to the next character in the format string*/
-    }
-
-    va_end(args); /* End variable argument list*/
-
-    return count; /* Return total number of characters printed*/
+	return count; /* Return total number of characters printed*/
 }
