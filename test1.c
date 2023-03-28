@@ -5,9 +5,11 @@
 int _printf(const char *format, ...)
 {
     va_list args;
-    va_start(args, format);
-
     int num_chars_printed = 0;
+    int len;
+    
+    va_start(args, format);	
+	
     while (*format != '\0')
     {
         if (*format == '%')
@@ -22,7 +24,7 @@ int _printf(const char *format, ...)
             else if (*format == 's')
             {
                 char *str = va_arg(args, char *);
-                int len = 0;
+                len = 0;
                 while (str[len] != '\0')
                 {
                     len++;
@@ -38,9 +40,9 @@ int _printf(const char *format, ...)
             else if (*format == 'd' || *format == 'i')
             {
                 int num = va_arg(args, int);
-                char num_str[12]; // maximum number of digits in a 32-bit integer plus null byte
+                char num_str[12]; 
                 sprintf(num_str, "%d", num);
-                int len = 0;
+                len = 0;
                 while (num_str[len] != '\0')
                 {
                     len++;
