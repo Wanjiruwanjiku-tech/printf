@@ -18,6 +18,7 @@ int handle_int(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
+			count++;
 			switch (*format)
 			{
 				case 'i':
