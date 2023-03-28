@@ -13,6 +13,7 @@
 */
 int _printf(const char *format, ...)
 {
+	char *s;
 	int count = 0;
 	int value;
 	va_list args;
@@ -32,7 +33,8 @@ int _printf(const char *format, ...)
 					count += write(1, &value, 1);
 					break;
 				case 's':
-					count += write(1, va_arg(args, char *), strlen(va_arg(args, char *)));
+					s = va_arg(args, char *);
+					count += write(1, s, strlen(s));
 					break;
 				case '%':
 					count += write(1, "%", 1);
