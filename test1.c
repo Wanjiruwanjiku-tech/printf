@@ -12,8 +12,8 @@ int _printf(const char *format, ...)
     int num_chars_printed = 0;
     int len;
     
-    va_start(args, format);	
-	
+    va_start(args, format);
+
     while (*format != '\0')
     {
         if (*format == '%')
@@ -53,9 +53,9 @@ int _printf(const char *format, ...)
                 }
                 write(1, num_str, len);
                 num_chars_printed += len;
-		
+
             }
-	    
+            
             else if (*format == 'u')
             {
                 unsigned int num = va_arg(args, unsigned int);
@@ -82,34 +82,34 @@ int _printf(const char *format, ...)
                 write(1, num_str, len);
                 num_chars_printed += len;
             }
-	    else if (*format == 'x' || *format == 'X')
-	    {
-    		unsigned int num = va_arg(args, unsigned int);
-    		char num_str[12];
-    		len = snprintf(num_str, sizeof(num_str), "%x", num);
-    		write(1, num_str, len);
-    		num_chars_printed += len;
-	    }
-	    else if (*format == 'p')
-	    {
-    		void *ptr = va_arg(args, void *);
-    		char ptr_str[20];
-    		sprintf(ptr_str, "%p", ptr);
-    		len = 0;
-    		while (ptr_str[len] != '\0')
-    		{
-        		len++;
-    		}
-    		write(1, ptr_str, len);
-   		num_chars_printed += len;
-	    }
-	    else
-	    {
-    		write(1, "%", 1);
-    		num_chars_printed++;
-    		write(1, format, 1);
-    		num_chars_printed++;
-	    }
+            else if (*format == 'x' || *format == 'X')
+            {
+                unsigned int num = va_arg(args, unsigned int);
+                char num_str[12];
+                len = snprintf(num_str, sizeof(num_str), "%x", num);
+                write(1, num_str, len);
+                num_chars_printed += len;
+            }
+            else if (*format == 'p')
+            {
+                void *ptr = va_arg(args, void *);
+                char ptr_str[20];
+                sprintf(ptr_str, "%p", ptr);
+                len = 0;
+                while (ptr_str[len] != '\0')
+                {
+                        len++;
+                }
+                write(1, ptr_str, len);
+                num_chars_printed += len;
+            }
+            else
+            {
+                write(1, "%", 1);
+                num_chars_printed++;
+                write(1, format, 1);
+                num_chars_printed++;
+            }
 
         }
         else
@@ -124,4 +124,3 @@ int _printf(const char *format, ...)
 
     return(num_chars_printed);
 }
-
