@@ -1,5 +1,12 @@
 #include "main.h"
-
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+/**
+ * handle_int - handle int in printf
+ * @format: string
+ * Return: count
+ */
 int handle_int(const char *format, ...)
 {
 	int count = 0, i;
@@ -17,6 +24,7 @@ int handle_int(const char *format, ...)
 				case 'd':
 					{
 						char buffer[40];
+
 						sprintf(buffer, "%d", va_arg(av, int));
 						count += write(1, buffer, sizeof(buffer));
 						break;
@@ -29,13 +37,13 @@ int handle_int(const char *format, ...)
 			}
 
 		}
-		else 
+		else
 		{
 			count += write(1, &(*format), 1);
 		}
 
 	}
-	va_end (av);
+	va_end(av);
 	return (count);
-	
+
 }
